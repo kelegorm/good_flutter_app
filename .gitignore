@@ -1,0 +1,55 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.log
+.history/
+
+# JetBrains / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code local settings
+.vscode/
+
+# Codex project metadata
+.codex/
+
+# Dart / Flutter tooling
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub/
+.pub-cache/
+pubspec_overrides.yaml
+
+# Generated docs / reports
+coverage/
+doc/api/
+
+# Build outputs
+build/
+.build/
+.buildlog/
+
+# Flutter generated
+**/ios/Flutter/.last_build_id
+app.*.symbols
+app.*.map.json
+
+# Android / Gradle outputs
+android/.gradle/
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# Apple / Swift artifacts
+DerivedData/
+.swiftpm/
+
+# Legacy / migration leftovers
+migrate_working_dir/
