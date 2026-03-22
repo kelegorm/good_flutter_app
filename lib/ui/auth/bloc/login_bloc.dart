@@ -21,7 +21,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     emit(const LoginInProgress());
-    _authController.signIn();
-    emit(const LoginSuccess());
+
+    try {
+      await _authController.signIn(
+        username: event.username,
+        password: event.password,
+      );
+      emit(const LoginSuccess());
+    } on Exception catch (e) {
+      emit(LoginFailure(e.toString()));
+    }
   }
 }

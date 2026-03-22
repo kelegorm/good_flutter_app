@@ -28,7 +28,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(const HomeSignOutInProgress());
-    _authController.signOut();
+    await _authController.signOut();
     emit(const HomeSignedOut());
   }
 }

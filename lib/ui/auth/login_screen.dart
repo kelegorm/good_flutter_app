@@ -38,6 +38,8 @@ class LoginScreen extends StatelessWidget {
         return _buildInProgress(context);
       case LoginSuccess():
         return _buildSuccess();
+      case LoginFailure():
+        return _buildFailure(context, state.message);
     }
   }
 
@@ -74,7 +76,17 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildForm({required Widget button}) {
+  Widget _buildFailure(BuildContext context, String message) {
+    return _buildForm(
+      message: message,
+      button: AppPrimaryButton(
+        onPressed: () => _onSignInPressed(context),
+        child: const Text('Try again'),
+      ),
+    );
+  }
+
+  Widget _buildForm({required Widget button, String? message}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -84,8 +96,8 @@ class LoginScreen extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppSpacing.md),
-        const AppBodyText(
-          'Bootstrap is complete, locale can already be initialized here later.',
+        AppBodyText(
+          message ?? 'Bootstrap is complete, locale can already be initialized here later.',
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppSpacing.xl),
@@ -95,6 +107,10 @@ class LoginScreen extends StatelessWidget {
   }
 
   void _onSignInPressed(BuildContext context) {
-    context.read<LoginBloc>().add(const LoginSignInRequested());
+    // TODO: replace with actual form field values when login form is added
+    context.read<LoginBloc>().add(const LoginSignInRequested(
+      username: 'demo',
+      password: 'demo',
+    ));
   }
 }

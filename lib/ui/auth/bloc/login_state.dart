@@ -13,3 +13,9 @@ class LoginInProgress extends LoginState {
 class LoginSuccess extends LoginState {
   const LoginSuccess();
 }
+
+class LoginFailure extends LoginState {
+  final String message;
+
+  const LoginFailure(this.message);
+}

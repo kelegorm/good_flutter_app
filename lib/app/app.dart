@@ -5,6 +5,9 @@ import 'package:good_example/app/bootstrap/bootstrap_state.dart';
 import 'package:good_example/app/di/app_di.dart';
 import 'package:good_example/app/navigation/app_router.dart';
 import 'package:good_example/app/session/session_controller.dart';
+import 'package:good_example/domain/auth/auth_controller.dart';
+import 'package:good_example/domain/storage/app_preferences.dart';
+import 'package:good_example/domain/storage/token_storage.dart';
 import 'package:good_example/ui/bootstrap/bootstrap_screen.dart';
 import 'package:good_example/ui/design_system/app_theme.dart';
 
@@ -25,7 +28,11 @@ class _AppState extends State<App> {
     super.initState();
     configureDependencies();
 
-    _bootstrapController = BootstrapController();
+    _bootstrapController = BootstrapController(
+      tokenStorage: GetIt.instance<TokenStorage>(),
+      appPreferences: GetIt.instance<AppPreferences>(),
+      authController: GetIt.instance<AuthController>(),
+    );
     _appRouter = GetIt.instance<AppRouter>();
     _sessionController = GetIt.instance<SessionController>();
 

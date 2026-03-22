@@ -2,6 +2,12 @@ sealed class LoginEvent {
   const LoginEvent();
 }
 
-final class LoginSignInRequested extends LoginEvent {
-  const LoginSignInRequested();
+class LoginSignInRequested extends LoginEvent {
+  final String username;
+  final String password;
+
+  const LoginSignInRequested({
+    required this.username,
+    required this.password,
+  });
 }
