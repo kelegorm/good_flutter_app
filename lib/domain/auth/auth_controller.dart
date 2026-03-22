@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:good_example/domain/auth/auth_repository.dart';
+import 'package:good_example/domain/auth/auth_state.dart';
 import 'package:good_example/domain/auth/auth_token.dart';
 import 'package:good_example/domain/storage/token_storage.dart';
 
@@ -8,7 +9,7 @@ import 'package:good_example/domain/storage/token_storage.dart';
 class AuthController {
   final AuthRepository _authRepository;
   final TokenStorage _tokenStorage;
-  final _changesController = StreamController<void>.broadcast();
+  final _changesController = StreamController<AuthState>.broadcast();
 
   bool _isAuthenticated = false;
 
@@ -19,12 +20,19 @@ class AuthController {
         _tokenStorage = tokenStorage;
 
   bool get isAuthenticated => _isAuthenticated;
-  Stream<void> get changes => _changesController.stream;
+  Stream<AuthState> get changes => _changesController.stream;
 
-  /// Restores a previously saved session without notifying listeners.
-  /// Used during bootstrap to set initial auth state silently.
-  void restoreSession(AuthToken token) {
-    _isAuthenticated = true;
+  /// Validates a saved token with the server and restores the session.
+  Future<void> restoreSession(AuthToken token) async {
+    try {
+      final freshToken = await _authRepository.refresh(token.refreshToken);
+      await _tokenStorage.write(freshToken);
+      _isAuthenticated = true;
+    } on Exception {
+      await _tokenStorage.clear();
+      _isAuthenticated = false;
+    }
+    _changesController.add(_currentState());
   }
 
   Future<void> signIn({
@@ -37,17 +45,20 @@ class AuthController {
     );
     await _tokenStorage.write(token);
     _isAuthenticated = true;
-    _changesController.add(null);
+    _changesController.add(_currentState());
   }
 
   Future<void> signOut() async {
     await _authRepository.logout();
     await _tokenStorage.clear();
     _isAuthenticated = false;
-    _changesController.add(null);
+    _changesController.add(_currentState());
   }
 
   void dispose() {
     _changesController.close();
   }
+
+  AuthState _currentState() =>
+      _isAuthenticated ? AuthAuthenticated() : AuthUnauthenticated();
 }

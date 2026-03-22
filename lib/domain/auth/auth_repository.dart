@@ -7,5 +7,8 @@ abstract interface class AuthRepository {
     required String password,
   });
 
+  /// Refreshes the session using a stored refresh token. Throws on failure.
+  Future<AuthToken> refresh(String refreshToken);
+
   Future<void> logout();
 }

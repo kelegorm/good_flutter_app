@@ -49,6 +49,14 @@ class InstantMockAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<AuthToken> refresh(String refreshToken) async {
+    return const AuthToken(
+      accessToken: 'test_access_refreshed',
+      refreshToken: 'test_refresh_refreshed',
+    );
+  }
+
+  @override
   Future<void> logout() async {}
 }
 

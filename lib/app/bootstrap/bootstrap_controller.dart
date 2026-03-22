@@ -28,17 +28,38 @@ class BootstrapController extends ChangeNotifier {
   Future<void> bootstrap() => _bootstrapFuture ??= _runBootstrap();
 
   Future<void> _runBootstrap() async {
-    final savedLocale = await _appPreferences.readLocale();
-    if (savedLocale != null) {
-      _locale = Locale(savedLocale);
-    }
+    try {
+      await _restoreLocale();
+      await _restoreSession();
 
-    final savedToken = await _tokenStorage.read();
-    if (savedToken != null) {
-      _authController.restoreSession(savedToken);
+      _state = const BootstrapComplete();
+    } on Exception catch (e) {
+      _state = BootstrapError(e.toString());
     }
-
-    _state = const BootstrapComplete();
     notifyListeners();
+  }
+
+  /// Soft failure: if locale can't be read, use system default.
+  Future<void> _restoreLocale() async {
+    try {
+      final savedLocale = await _appPreferences.readLocale();
+      if (savedLocale != null) {
+        _locale = Locale(savedLocale);
+      }
+    } on Exception {
+      // Non-critical — system locale will be used.
+    }
+  }
+
+  /// Soft failure: if token can't be read or refresh fails, user stays logged out.
+  Future<void> _restoreSession() async {
+    try {
+      final savedToken = await _tokenStorage.read();
+      if (savedToken != null) {
+        await _authController.restoreSession(savedToken);
+      }
+    } on Exception {
+      // Non-critical — user will see login screen.
+    }
   }
 }

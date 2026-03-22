@@ -36,7 +36,15 @@ class _AppState extends State<App> {
     _appRouter = GetIt.instance<AppRouter>();
     _sessionController = GetIt.instance<SessionController>();
 
-    _bootstrapController.bootstrap();
+    _runBootstrap();
+  }
+
+  Future<void> _runBootstrap() async {
+    await _bootstrapController.bootstrap();
+
+    if (_bootstrapController.state case BootstrapComplete()) {
+      _sessionController.start();
+    }
   }
 
   @override
@@ -68,6 +76,8 @@ class _AppState extends State<App> {
             return const BootstrapScreen();
           case BootstrapComplete():
             return child!;
+          case BootstrapError(:final message):
+            return BootstrapScreen(errorMessage: message);
         }
       },
     );

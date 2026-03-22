@@ -9,3 +9,9 @@ class BootstrapLoading extends BootstrapState {
 class BootstrapComplete extends BootstrapState {
   const BootstrapComplete();
 }
+
+class BootstrapError extends BootstrapState {
+  final String message;
+
+  const BootstrapError(this.message);
+}
