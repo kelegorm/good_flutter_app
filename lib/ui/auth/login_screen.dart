@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_example/ui/auth/bloc/login_bloc.dart';
 import 'package:good_example/ui/common/context_extensions.dart';
-import 'package:good_example/ui/design_system/app_dimens.dart';
 import 'package:good_example/ui/design_system/app_spacing.dart';
 import 'package:good_example/ui/design_system/components/app_body_text.dart';
 import 'package:good_example/ui/design_system/components/app_headline.dart';
@@ -20,13 +19,10 @@ class LoginScreen extends StatelessWidget {
       create: (_) => context.get<LoginBloc>(),
       child: Scaffold(
         body: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: AppDimens.maxContentWidth),
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              child: BlocBuilder<LoginBloc, LoginState>(
-                builder: _buildContent,
-              ),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.xl),
+            child: BlocBuilder<LoginBloc, LoginState>(
+              builder: _buildContent,
             ),
           ),
         ),

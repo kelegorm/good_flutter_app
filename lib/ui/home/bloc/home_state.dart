@@ -2,14 +2,14 @@ sealed class HomeState {
   const HomeState();
 }
 
-final class HomeInitial extends HomeState {
+class HomeInitial extends HomeState {
   const HomeInitial();
 }
 
-final class HomeSignOutInProgress extends HomeState {
+class HomeSignOutInProgress extends HomeState {
   const HomeSignOutInProgress();
 }
 
-final class HomeSignedOut extends HomeState {
+class HomeSignedOut extends HomeState {
   const HomeSignedOut();
 }

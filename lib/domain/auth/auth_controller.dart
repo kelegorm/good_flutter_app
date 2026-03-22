@@ -1,19 +1,26 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
 
-class AuthController extends ChangeNotifier {
+/// Holds the current authentication state and provides sign-in / sign-out operations.
+class AuthController {
   bool _isAuthenticated = false;
+  final _changesController = StreamController<void>.broadcast();
 
   bool get isAuthenticated => _isAuthenticated;
+  Stream<void> get changes => _changesController.stream;
 
   void signIn() {
     if (_isAuthenticated) return;
     _isAuthenticated = true;
-    notifyListeners();
+    _changesController.add(null);
   }
 
   void signOut() {
     if (!_isAuthenticated) return;
     _isAuthenticated = false;
-    notifyListeners();
+    _changesController.add(null);
+  }
+
+  void dispose() {
+    _changesController.close();
   }
 }

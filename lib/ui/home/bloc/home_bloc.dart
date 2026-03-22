@@ -7,17 +7,19 @@ import 'package:good_example/ui/navigation/app_navigator.dart';
 export 'package:good_example/ui/home/bloc/home_event.dart';
 export 'package:good_example/ui/home/bloc/home_state.dart';
 
-/// Controls home screen flow: handles sign-out requests and navigates to login on completion.
+/// Controls home screen flow: handles sign-out and future in-app navigation.
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final AuthController _authController;
+
+  // ignore: unused_field
   final AppNavigator _navigator;
 
   HomeBloc({
     required AuthController authController,
     required AppNavigator navigator,
-  })  : _authController = authController,
-        _navigator = navigator,
-        super(const HomeInitial()) {
+  }) : _authController = authController,
+       _navigator = navigator,
+       super(const HomeInitial()) {
     on<HomeSignOutRequested>(_onSignOutRequested);
   }
 
@@ -27,7 +29,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(const HomeSignOutInProgress());
     _authController.signOut();
-    await _navigator.openLogin();
     emit(const HomeSignedOut());
   }
 }

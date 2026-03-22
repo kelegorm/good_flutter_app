@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:good_example/ui/design_system/app_theme.dart';
 import 'package:good_example/app/bootstrap/bootstrap_controller.dart';
 import 'package:good_example/app/bootstrap/bootstrap_state.dart';
 import 'package:good_example/app/di/app_di.dart';
 import 'package:good_example/app/navigation/app_router.dart';
-import 'package:good_example/domain/auth/auth_controller.dart';
+import 'package:good_example/app/session/session_controller.dart';
 import 'package:good_example/ui/bootstrap/bootstrap_screen.dart';
+import 'package:good_example/ui/design_system/app_theme.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -18,18 +18,25 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   late final BootstrapController _bootstrapController;
   late final AppRouter _appRouter;
-  late final AuthController _authController;
+  late final SessionController _sessionController;
 
   @override
   void initState() {
     super.initState();
     configureDependencies();
 
-    _bootstrapController = BootstrapController(); // Don't need to keep it inside DI
+    _bootstrapController = BootstrapController();
     _appRouter = GetIt.instance<AppRouter>();
-    _authController = GetIt.instance<AuthController>();
+    _sessionController = GetIt.instance<SessionController>();
 
     _bootstrapController.bootstrap();
+  }
+
+  @override
+  void dispose() {
+    _sessionController.dispose();
+    _bootstrapController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,9 +45,7 @@ class _AppState extends State<App> {
       title: 'Good Flutter App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
-      routerConfig: _appRouter.config(
-        reevaluateListenable: _authController,
-      ),
+      routerConfig: _appRouter.config(),
       builder: _buildBootstrapSwitcher,
     );
   }
