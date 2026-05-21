@@ -88,7 +88,9 @@ class _AppState extends State<App> {
           case BootstrapLoading():
             return const BootstrapScreen();
           case BootstrapComplete():
-            return _isStartupFlowReady ? child! : const BootstrapScreen();
+            return _isStartupFlowReady && child != null
+                ? child
+                : const BootstrapScreen();
           case BootstrapError(:final message):
             return BootstrapScreen(errorMessage: message);
         }

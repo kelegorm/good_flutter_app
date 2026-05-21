@@ -9,9 +9,10 @@ class BootstrapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final error = errorMessage;
     return Scaffold(
       body: Center(
-        child: errorMessage != null ? _buildError() : _buildLoading(),
+        child: error != null ? _buildError(error) : _buildLoading(),
       ),
     );
   }
@@ -27,10 +28,10 @@ class BootstrapScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildError() {
+  Widget _buildError(String message) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [AppBodyText(errorMessage!, textAlign: TextAlign.center)],
+      children: [AppBodyText(message, textAlign: TextAlign.center)],
     );
   }
 }
