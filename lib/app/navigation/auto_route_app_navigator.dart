@@ -1,5 +1,5 @@
 import 'package:good_example/app/navigation/app_router.dart';
-import 'package:good_example/ui/navigation/app_navigator.dart';
+import 'package:good_example/app_ports/navigation/app_navigator.dart';
 
 class AutoRouteAppNavigator implements AppNavigator {
   AutoRouteAppNavigator(this._router);

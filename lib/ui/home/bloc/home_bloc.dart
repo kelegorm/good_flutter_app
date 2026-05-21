@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_example/domain/auth/auth_controller.dart';
 import 'package:good_example/ui/home/bloc/home_event.dart';
 import 'package:good_example/ui/home/bloc/home_state.dart';
-import 'package:good_example/ui/navigation/app_navigator.dart';
+import 'package:good_example/app_ports/navigation/app_navigator.dart';
 
 export 'package:good_example/ui/home/bloc/home_event.dart';
 export 'package:good_example/ui/home/bloc/home_state.dart';

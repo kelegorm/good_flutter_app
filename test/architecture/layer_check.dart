@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// Shared engine for per-layer purity tests under `test/architecture/`.
 ///
-/// Each layer (domain, data, ui, …) has its own `*_purity_test.dart`
+/// Each layer (domain, ex_systems, ui, …) has its own `*_purity_test.dart`
 /// file that calls [checkLayer] with an allowlist describing what its
 /// files may import. The check is allowlist-only: anything not
 /// explicitly permitted is reported as a violation.

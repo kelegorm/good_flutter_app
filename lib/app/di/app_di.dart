@@ -2,16 +2,16 @@ import 'package:get_it/get_it.dart';
 import 'package:good_example/app/navigation/app_router.dart';
 import 'package:good_example/app/navigation/auto_route_app_navigator.dart';
 import 'package:good_example/app/session/session_controller.dart';
-import 'package:good_example/data/auth/mock_auth_repository.dart';
-import 'package:good_example/data/storage/secure_token_storage.dart';
-import 'package:good_example/data/storage/shared_app_preferences.dart';
+import 'package:good_example/ex_systems/auth/mock_auth_repository.dart';
+import 'package:good_example/ex_systems/storage/secure_token_storage.dart';
+import 'package:good_example/ex_systems/storage/shared_app_preferences.dart';
 import 'package:good_example/domain/auth/auth_controller.dart';
 import 'package:good_example/domain/auth/auth_repository.dart';
 import 'package:good_example/domain/storage/app_preferences.dart';
 import 'package:good_example/domain/storage/token_storage.dart';
 import 'package:good_example/ui/auth/bloc/login_bloc.dart';
 import 'package:good_example/ui/home/bloc/home_bloc.dart';
-import 'package:good_example/ui/navigation/app_navigator.dart';
+import 'package:good_example/app_ports/navigation/app_navigator.dart';
 
 /// Registers all application dependencies. Accepts optional overrides for testing.
 /// Calling this multiple times is safe — subsequent calls are ignored.

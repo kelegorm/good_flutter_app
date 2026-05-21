@@ -38,12 +38,14 @@ Before finalizing, verify:
 
 ## Enforcement
 
-Architectural import boundaries between `lib/{app, domain, data, ui}/` are
-enforced by the per-layer purity tests in `test/architecture/`
-(`domain_purity_test.dart`, `data_purity_test.dart`, `ui_purity_test.dart`).
+Architectural import boundaries between `lib/{app, app_ports, domain,
+ex_systems, ui}/` are enforced by the per-layer purity tests in
+`test/architecture/` (`domain_purity_test.dart`,
+`app_ports_purity_test.dart`, `ex_systems_purity_test.dart`,
+`ui_purity_test.dart`).
 They run as part of `flutter test --no-pub` and fail CI on any violation.
 
-When introducing a new external dependency to `lib/data/` or `lib/ui/`,
+When introducing a new external dependency to `lib/ex_systems/` or `lib/ui/`,
 update the corresponding `allowedExternalPackages` allowlist in those tests.
 When introducing a new shared UI subfolder that screens may legitimately
 import, add it to `sharedSiblings` in `ui_purity_test.dart`. Do not loosen

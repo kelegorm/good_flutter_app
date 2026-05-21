@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:good_example/domain/auth/auth_controller.dart';
 import 'package:good_example/domain/auth/auth_state.dart';
-import 'package:good_example/ui/navigation/app_navigator.dart';
+import 'package:good_example/app_ports/navigation/app_navigator.dart';
 
 enum _SessionFlowTarget { login, home }
 
