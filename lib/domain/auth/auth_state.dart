@@ -1,5 +1,11 @@
-sealed class AuthState {}
+sealed class AuthState {
+  const AuthState();
+}
 
-class AuthAuthenticated extends AuthState {}
+class AuthAuthenticated extends AuthState {
+  const AuthAuthenticated();
+}
 
-class AuthUnauthenticated extends AuthState {}
+class AuthUnauthenticated extends AuthState {
+  const AuthUnauthenticated();
+}

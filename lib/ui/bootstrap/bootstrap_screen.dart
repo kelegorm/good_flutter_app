@@ -30,9 +30,7 @@ class BootstrapScreen extends StatelessWidget {
   Widget _buildError() {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        AppBodyText(errorMessage!, textAlign: TextAlign.center),
-      ],
+      children: [AppBodyText(errorMessage!, textAlign: TextAlign.center)],
     );
   }
 }

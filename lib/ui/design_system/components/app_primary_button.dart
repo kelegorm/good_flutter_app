@@ -13,9 +13,6 @@ class AppPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: onPressed,
-      child: child,
-    );
+    return FilledButton(onPressed: onPressed, child: child);
   }
 }

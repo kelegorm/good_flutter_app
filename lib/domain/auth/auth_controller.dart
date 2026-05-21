@@ -11,7 +11,7 @@ class AuthController {
   final TokenStorage _tokenStorage;
   final _changesController = StreamController<AuthState>.broadcast();
 
-  bool _isAuthenticated = false;
+  AuthState _state = const AuthUnauthenticated();
 
   AuthController({
     required AuthRepository authRepository,
@@ -19,7 +19,7 @@ class AuthController {
   })  : _authRepository = authRepository,
         _tokenStorage = tokenStorage;
 
-  bool get isAuthenticated => _isAuthenticated;
+  AuthState get currentState => _state;
   Stream<AuthState> get changes => _changesController.stream;
 
   /// Validates a saved token with the server and restores the session.
@@ -27,12 +27,12 @@ class AuthController {
     try {
       final freshToken = await _authRepository.refresh(token.refreshToken);
       await _tokenStorage.write(freshToken);
-      _isAuthenticated = true;
+      _state = const AuthAuthenticated();
     } on Exception {
       await _tokenStorage.clear();
-      _isAuthenticated = false;
+      _state = const AuthUnauthenticated();
     }
-    _changesController.add(_currentState());
+    _changesController.add(_state);
   }
 
   Future<void> signIn({
@@ -44,21 +44,18 @@ class AuthController {
       password: password,
     );
     await _tokenStorage.write(token);
-    _isAuthenticated = true;
-    _changesController.add(_currentState());
+    _state = const AuthAuthenticated();
+    _changesController.add(_state);
   }
 
   Future<void> signOut() async {
     await _authRepository.logout();
     await _tokenStorage.clear();
-    _isAuthenticated = false;
-    _changesController.add(_currentState());
+    _state = const AuthUnauthenticated();
+    _changesController.add(_state);
   }
 
   void dispose() {
     _changesController.close();
   }
-
-  AuthState _currentState() =>
-      _isAuthenticated ? AuthAuthenticated() : AuthUnauthenticated();
 }

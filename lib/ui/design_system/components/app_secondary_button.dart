@@ -13,9 +13,6 @@ class AppSecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: onPressed,
-      child: child,
-    );
+    return OutlinedButton(onPressed: onPressed, child: child);
   }
 }

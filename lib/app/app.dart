@@ -22,6 +22,7 @@ class _AppState extends State<App> {
   late final BootstrapController _bootstrapController;
   late final AppRouter _appRouter;
   late final SessionController _sessionController;
+  bool _isStartupFlowReady = false;
 
   @override
   void initState() {
@@ -42,8 +43,20 @@ class _AppState extends State<App> {
   Future<void> _runBootstrap() async {
     await _bootstrapController.bootstrap();
 
+    if (!mounted) {
+      return;
+    }
+
     if (_bootstrapController.state case BootstrapComplete()) {
-      _sessionController.start();
+      _sessionController.initialize();
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _isStartupFlowReady = true;
+      });
     }
   }
 
@@ -75,7 +88,7 @@ class _AppState extends State<App> {
           case BootstrapLoading():
             return const BootstrapScreen();
           case BootstrapComplete():
-            return child!;
+            return _isStartupFlowReady ? child! : const BootstrapScreen();
           case BootstrapError(:final message):
             return BootstrapScreen(errorMessage: message);
         }

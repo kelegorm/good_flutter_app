@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Body text. Use for descriptive or supporting content.
 class AppBodyText extends StatelessWidget {
-  const AppBodyText(
-    this.text, {
-    super.key,
-    this.textAlign,
-  });
+  const AppBodyText(this.text, {super.key, this.textAlign});
 
   final String text;
   final TextAlign? textAlign;

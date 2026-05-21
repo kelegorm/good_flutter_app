@@ -18,9 +18,9 @@ class BootstrapController extends ChangeNotifier {
     required TokenStorage tokenStorage,
     required AppPreferences appPreferences,
     required AuthController authController,
-  })  : _tokenStorage = tokenStorage,
-        _appPreferences = appPreferences,
-        _authController = authController;
+  }) : _tokenStorage = tokenStorage,
+       _appPreferences = appPreferences,
+       _authController = authController;
 
   BootstrapState get state => _state;
   Locale? get locale => _locale;

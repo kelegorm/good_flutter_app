@@ -138,6 +138,38 @@ void _init() => _sub = service.events.listen((e) => _process(e)
 4. Private instance methods.
 5. Private static methods at the end.
 
+## Non-Null Assertions (`!`)
+
+### Rules
+
+- Do **not** use the `!` (bang / non-null-assertion) operator. It is banned
+  project-wide and enforced by `dart_code_linter`'s `avoid-non-null-assertion`
+  rule (configured as `severity: error` in `analysis_options.yaml`).
+- Replace it with explicit null handling: pattern matching (`case final x?`),
+  `if (x != null)` early returns, the `??` / `??=` operators, or by tightening
+  the type so the value is non-nullable at the boundary.
+- If a value really cannot be null at a given point, encode that in the type
+  (e.g. promote via a local `final x = maybe; if (x == null) return;`) instead
+  of asserting it with `!`.
+
+### Example
+
+```dart
+// BAD: bang operator.
+final name = user.profile!.displayName!;
+
+// GOOD: pattern matching with null-aware destructuring.
+final displayName = switch (user.profile) {
+  Profile(:final displayName?) => displayName,
+  _ => 'Anonymous',
+};
+
+// GOOD: explicit early return.
+final profile = user.profile;
+if (profile == null) return;
+final name = profile.displayName ?? 'Anonymous';
+```
+
 ## File Splitting Style
 
 ### Rules

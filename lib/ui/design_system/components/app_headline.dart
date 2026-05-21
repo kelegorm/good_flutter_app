@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Headline text. Use for primary titles and screen headers.
 class AppHeadline extends StatelessWidget {
-  const AppHeadline(
-    this.text, {
-    super.key,
-    this.textAlign,
-  });
+  const AppHeadline(this.text, {super.key, this.textAlign});
 
   final String text;
   final TextAlign? textAlign;

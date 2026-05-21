@@ -8,6 +8,8 @@ import 'package:good_example/domain/storage/app_preferences.dart';
 import 'package:good_example/domain/storage/token_storage.dart';
 
 class InMemoryTokenStorage implements TokenStorage {
+  InMemoryTokenStorage([this._token]);
+
   AuthToken? _token;
 
   @override
@@ -91,5 +93,29 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Sign in to continue'), findsOneWidget);
+  });
+
+  testWidgets('bootstrap opens home when a saved token restores session', (
+    tester,
+  ) async {
+    await GetIt.instance.reset();
+    configureDependencies(
+      tokenStorage: InMemoryTokenStorage(
+        const AuthToken(
+          accessToken: 'saved_access',
+          refreshToken: 'saved_refresh',
+        ),
+      ),
+      appPreferences: InMemoryAppPreferences(),
+      authRepository: InstantMockAuthRepository(),
+    );
+
+    await tester.pumpWidget(const App());
+    expect(find.text('Preparing application...'), findsOneWidget);
+
+    await tester.pumpAndSettle();
+
+    expect(find.text('Main app screen'), findsOneWidget);
+    expect(find.text('Sign in to continue'), findsNothing);
   });
 }

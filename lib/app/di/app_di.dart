@@ -23,47 +23,45 @@ void configureDependencies({
   final getIt = GetIt.instance;
   if (getIt.isRegistered<AuthController>()) return;
 
-  // Storage
-  getIt.registerLazySingleton<TokenStorage>(
-    () => tokenStorage ?? SecureTokenStorage(),
-  );
-  getIt.registerLazySingleton<AppPreferences>(
-    () => appPreferences ?? SharedAppPreferences(),
-  );
-
-  // Domain
-  getIt.registerLazySingleton<AuthRepository>(
-    () => authRepository ?? MockAuthRepository(),
-  );
-  getIt.registerLazySingleton<AuthController>(
-    () => AuthController(
-      authRepository: getIt<AuthRepository>(),
-      tokenStorage: getIt<TokenStorage>(),
-    ),
-  );
-
-  // Navigation
-  getIt.registerLazySingleton<AppRouter>(
-    () => AppRouter(getIt<AuthController>()),
-  );
-  getIt.registerLazySingleton<AppNavigator>(
-    () => AutoRouteAppNavigator(getIt<AppRouter>()),
-  );
-  getIt.registerLazySingleton<SessionController>(
-    () => SessionController(
-      authController: getIt<AuthController>(),
-      navigator: getIt<AppNavigator>(),
-    ),
-  );
-
-  // Screen blocs
-  getIt.registerFactory<LoginBloc>(
-    () => LoginBloc(authController: getIt<AuthController>()),
-  );
-  getIt.registerFactory<HomeBloc>(
-    () => HomeBloc(
-      authController: getIt<AuthController>(),
-      navigator: getIt<AppNavigator>(),
-    ),
-  );
+  getIt
+    // Storage
+    ..registerLazySingleton<TokenStorage>(
+      () => tokenStorage ?? SecureTokenStorage(),
+    )
+    ..registerLazySingleton<AppPreferences>(
+      () => appPreferences ?? SharedAppPreferences(),
+    )
+    // Domain
+    ..registerLazySingleton<AuthRepository>(
+      () => authRepository ?? MockAuthRepository(),
+    )
+    ..registerLazySingleton<AuthController>(
+      () => AuthController(
+        authRepository: getIt<AuthRepository>(),
+        tokenStorage: getIt<TokenStorage>(),
+      ),
+    )
+    // Navigation
+    ..registerLazySingleton<AppRouter>(
+      () => AppRouter(getIt<AuthController>()),
+    )
+    ..registerLazySingleton<AppNavigator>(
+      () => AutoRouteAppNavigator(getIt<AppRouter>()),
+    )
+    ..registerLazySingleton<SessionController>(
+      () => SessionController(
+        authController: getIt<AuthController>(),
+        navigator: getIt<AppNavigator>(),
+      ),
+    )
+    // Screen blocs
+    ..registerFactory<LoginBloc>(
+      () => LoginBloc(authController: getIt<AuthController>()),
+    )
+    ..registerFactory<HomeBloc>(
+      () => HomeBloc(
+        authController: getIt<AuthController>(),
+        navigator: getIt<AppNavigator>(),
+      ),
+    );
 }
