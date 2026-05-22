@@ -1,8 +1,10 @@
+part of 'login_bloc.dart';
+
 sealed class LoginEvent {
   const LoginEvent();
 }
 
-class LoginSignInRequested extends LoginEvent {
+final class LoginSignInRequested extends LoginEvent {
   final String username;
   final String password;
 

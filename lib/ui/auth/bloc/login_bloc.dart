@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:good_example/domain/auth/auth_controller.dart';
-import 'package:good_example/ui/auth/bloc/login_event.dart';
 import 'package:good_example/ui/auth/bloc/login_state.dart';
 
-export 'package:good_example/ui/auth/bloc/login_event.dart';
 export 'package:good_example/ui/auth/bloc/login_state.dart';
+
+part 'login_event.dart';
 
 /// Controls login screen flow: handles sign-in requests.
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
